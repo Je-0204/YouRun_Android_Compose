@@ -116,7 +116,7 @@ interface ApiService {
         @Path("id") runningId: Long
     ): Response<BaseResponse<RunningResultData>>
 
-    // Get Running Stats for month
+    // Get Running Stats for months
     @GET("users/runnings/{year}/{month}")
     suspend fun getRunningStats(
         @Path("year") year: Int,
@@ -144,6 +144,12 @@ interface ApiService {
         @Path("challengeId") challengeId: Long
     ): Response<BaseResponse<SoloChallengeDetailData>>
 
+    // Join Solo Challenge
+    @POST("challenges/solo/{challengeId}/join")
+    suspend fun joinSoloChallenge(
+        @Path("challengeId") challengeId: Long
+    ): Response<BaseResponse<SoloJoinData>>
+
     // Get Solo Challenge Progress
     @GET("challenges/solo/progress")
     suspend fun getSoloChallengeProgress(): Response<BaseResponse<SoloChallengeProgressData>>
@@ -155,12 +161,6 @@ interface ApiService {
     // Get Solo Challenge Result
     @GET("challenges/solo/running-result")
     suspend fun getSoloChallengeResult(): Response<BaseResponse<SoloChallengeResultData>>
-
-    // Join Solo Challenge
-    @POST("challenges/solo/{challengeId}/join")
-    suspend fun joinSoloChallenge(
-        @Path("challengeId") challengeId: Long
-    ): Response<BaseResponse<SoloJoinData>>
 
 
     // ========================================================================
@@ -189,13 +189,13 @@ interface ApiService {
         @Path("challengeId") challengeId: Long
     ): Response<BaseResponse<CrewJoinData>>
 
-    // Get Crew Matching Data
-    @GET("challenges/crew/matching")
-    suspend fun getCrewMatchingData(): Response<BaseResponse<CrewMatchingData>>
-
     // Get Crew Challenge Progress
     @GET("challenges/crew/detail-progress")
     suspend fun getCrewChallengeProgress(): Response<BaseResponse<CrewChallengeProgressData>>
+
+    // Get Crew Matching Data
+    @GET("challenges/crew/matching")
+    suspend fun getCrewMatchingData(): Response<BaseResponse<CrewMatchingData>>
 
     // Get Crew Challenge Result
     @GET("challenges/crew/running-result")
