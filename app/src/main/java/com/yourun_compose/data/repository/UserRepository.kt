@@ -1,6 +1,6 @@
 package com.yourun_compose.data.repository
 
-import com.yourun_compose.data.remote.ApiService
+import com.yourun_compose.data.api.ApiService
 import com.yourun_compose.data.model.user.UpdateUserRequest
 import com.yourun_compose.data.model.user.UserInfo
 import com.yourun_compose.data.model.user.UserMateInfo

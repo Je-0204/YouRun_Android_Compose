@@ -1,4 +1,4 @@
-package com.yourun_compose.data.remote
+package com.yourun_compose.data.api
 
 import com.yourun_compose.data.model.auth.*
 import com.yourun_compose.data.model.challenge.*

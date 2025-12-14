@@ -1,6 +1,6 @@
 package com.yourun_compose.data.repository
 
-import com.yourun_compose.data.remote.ApiService
+import com.yourun_compose.data.api.ApiService
 import com.yourun_compose.data.local.TokenManager
 import com.yourun_compose.data.model.auth.LoginRequest
 import com.yourun_compose.data.model.auth.SignUpRequest

@@ -1,8 +1,8 @@
 package com.yourun_compose.di
 
 import com.yourun_compose.BuildConfig
-import com.yourun_compose.data.remote.ApiService
-import com.yourun_compose.data.remote.AuthInterceptor
+import com.yourun_compose.data.api.ApiService
+import com.yourun_compose.data.api.AuthInterceptor
 import com.yourun_compose.data.local.TokenManager
 import dagger.Module
 import dagger.Provides
