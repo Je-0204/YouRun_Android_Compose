@@ -12,7 +12,7 @@ data class SignUpRequest(
     val password: String,
     val passwordcheck: String,
     val nickname: String,
-    val tendency: String, // 혹은 Tendency enum 사용 고려
+    val tendency: String,
     val tag1: String,
     val tag2: String
 )
@@ -20,4 +20,12 @@ data class SignUpRequest(
 data class TokenData(
     @SerializedName("access_token", alternate = ["string"]) // Normal: access_token, Kakao: string
     val accessToken: String
+)
+
+// Kakao User Initial Info
+data class UserInitRequest(
+    val nickname: String,
+    val tendency: String,
+    val tag1: String,
+    val tag2: String
 )

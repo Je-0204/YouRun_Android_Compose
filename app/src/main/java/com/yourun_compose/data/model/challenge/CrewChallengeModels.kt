@@ -1,5 +1,7 @@
 package com.yourun_compose.data.model.challenge
 
+import com.google.gson.annotations.SerializedName
+
 data class CreateCrewChallengeRequest(
     val crewName: String,
     val slogan: String,
@@ -52,4 +54,24 @@ data class CrewChallengeResultData(
     val matchedCrewName: String = "",
     val matchedCrewCreator: String = "",
     val matchedCrewDistance: Double = 0.0
+)
+
+data class CrewMatchingData(
+    val period: Int,
+    val crewName: String,
+    val myCrewSlogan: String,
+
+    @SerializedName("myParticipantIdsInfo")
+    val myParticipants: List<MemberTendencyInfo>,
+
+    val matchedCrewName: String,
+    val matchedCrewSlogan: String,
+
+    @SerializedName("matchedParticipantIdsInfo")
+    val matchedParticipants: List<MemberTendencyInfo>
+)
+
+data class CrewJoinData(
+    val challengeId: Long,
+    val participantIds: List<Long>
 )

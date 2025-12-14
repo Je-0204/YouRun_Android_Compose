@@ -22,3 +22,12 @@ data class RunningResultData(
     val isSoloChallengeInProgress: Boolean,
     val isCrewChallengeInProgress: Boolean
 ) : Parcelable
+
+@Parcelize
+data class RunningCreationData(
+    val id: Long,
+    val totalDistance: Int,
+    val totalTime: Int,     // sec
+    val pace: Int,          // minute/km
+    val createdAt: String   // ISO 8601 String
+) : Parcelable

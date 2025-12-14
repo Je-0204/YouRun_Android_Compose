@@ -34,3 +34,41 @@ data class MemberTendencyInfo(
     val memberTendency: Tendency
         get() = Tendency.fromValue(memberTendencyRaw)
 }
+
+data class ChallengeMatchingResponse(
+    val isSoloChallengeMatching: Boolean,
+    val isCrewChallengeMatching: Boolean
+)
+
+data class ChallengeResultResponse(
+    val challengePeriod: Int,
+    val challengeDistance: Int,
+    val dayCount: Int,
+    val challengeMateInfo: ChallengeMateInfo,
+    val userIsSuccess: Boolean,
+    val userTendency: String
+)
+
+data class ChallengeMateInfo(
+    val challengeMateNickName: String,
+    val challengeMateTendency: String,
+    val successDay: Int,
+    val challengeMateIsSuccess: Boolean,
+    val distance: Int
+)
+
+data class ResultContributionResponse(
+    val challengePeriod: Int,
+    val reward: Int,
+    val crewName: String,
+    val crewMemberDistance: List<CrewMember>,
+    val mvpId: Int,
+    val win: Boolean
+)
+
+data class CrewMember(
+    val userId: Int,
+    val runningDistance: Double,
+    val userTendency: String,
+    val rank: Int
+)
