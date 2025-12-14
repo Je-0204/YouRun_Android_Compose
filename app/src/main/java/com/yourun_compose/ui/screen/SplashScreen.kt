@@ -33,9 +33,9 @@ fun SplashScreen(navController: NavController) {
             progress = { progress }
         )
 
-        // Move to LoginScreen after 4 seconds
+        // Move to LoginScreen after 3 seconds
         LaunchedEffect(key1 = true) {
-            kotlinx.coroutines.delay(4000L)
+            kotlinx.coroutines.delay(3000L)
             navController.navigate("login") {
                 popUpTo("splash") { inclusive = true }
             }
