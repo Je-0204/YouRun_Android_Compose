@@ -7,9 +7,21 @@ import javax.inject.Singleton
 class SessionManager @Inject constructor() {
     private var isMatchingChecked: Boolean = false
 
+    private var tempTendencyResult: String? = null
+
     fun isAlreadyChecked(): Boolean = isMatchingChecked
 
     fun setChecked() {
         isMatchingChecked = true
+    }
+
+    fun saveTempTendency(tendency: String) {
+        tempTendencyResult = tendency
+    }
+
+    fun getTempTendency(): String? = tempTendencyResult
+
+    fun clearTempTendency() {
+        tempTendencyResult = null
     }
 }

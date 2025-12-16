@@ -1,21 +1,23 @@
-package com.yourun_compose.domain.usecase
+package com.yourun_compose.domain.usecase.common
 
 import com.yourun_compose.data.local.SessionManager
 import com.yourun_compose.data.repository.ChallengeRepository
 import javax.inject.Inject
 
+// Get Home Data
+class GetHomeDataUseCase @Inject constructor(private val repository: ChallengeRepository) {
+    suspend operator fun invoke() = repository.getHomeChallengeInfo()
+}
+
+// Check Matching
 class CheckMatchingUseCase @Inject constructor(
     private val repository: ChallengeRepository,
     private val sessionManager: SessionManager
 ) {
-    // 반환값: 이동해야 할 화면 타입 ("SOLO", "CREW", or null)
     suspend operator fun invoke(): String? {
-        if (sessionManager.isAlreadyChecked()) {
-            return null
-        }
+        if (sessionManager.isAlreadyChecked()) return null
 
         val result = repository.checkMatchingStatus()
-
         sessionManager.setChecked()
 
         return if (result.isSuccess) {
@@ -25,8 +27,6 @@ class CheckMatchingUseCase @Inject constructor(
                 data?.isCrewChallengeMatching == true -> "CREW"
                 else -> null
             }
-        } else {
-            null
-        }
+        } else null
     }
 }
