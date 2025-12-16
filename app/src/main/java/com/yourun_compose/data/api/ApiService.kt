@@ -31,9 +31,6 @@ interface ApiService {
     ): Response<BaseResponse<Boolean>>
 
     // Sign up
-    // 올바른 형식의 이메일 주소여야 합니다.
-    // 비밀번호는 영문과 숫자를 포함하여 8~10자이어야 합니다.
-    // 닉네임은 띄어쓰기 없이 한글 2~4자만 가능합니다.
     @POST("users")
     suspend fun signUp(
         @Body request: SignUpRequest
