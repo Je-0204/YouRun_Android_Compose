@@ -85,7 +85,7 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    // 닉네임 중복 확인
+    // Check Nickname Duplicated
     fun checkNickname() {
         if (!_uiState.value.isNicknameValid) return
         viewModelScope.launch {
