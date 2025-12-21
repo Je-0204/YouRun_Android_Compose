@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,18 +29,34 @@ class SoloCreateViewModel @Inject constructor(
         }
     }
 
-    fun updateEndDate(input: String) { _uiState.update { it.copy(endDate = input) } }
+    // 커스텀 캘린더에서 "첫 번째 클릭(start)"과 "두 번째 클릭(end)"이 완료되었을 때 이 함수를 호출해주세요.
+    fun updateDateRange(start: LocalDate, end: LocalDate) {
+        val (finalStart, finalEnd) = if (start.isAfter(end)) {
+            end to start
+        } else {
+            start to end
+        }
+
+        _uiState.update {
+            it.copy(startDate = finalStart, endDate = finalEnd, errorMessage = null)
+        }
+    }
 
     fun createChallenge() {
         val state = _uiState.value
-        if (state.endDate.isBlank()) return
+        if (state.startDate == null || state.endDate == null) {
+            _uiState.update { it.copy(errorMessage = "기간을 설정해주세요.") }
+            return
+        }
 
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
 
             val distanceString = state.selectedDistance.toString()
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val endDateString = state.endDate.format(formatter)
 
-            val result = createSoloChallengeUseCase(state.endDate, distanceString)
+            val result = createSoloChallengeUseCase(endDateString, distanceString)
 
             result.onSuccess {
                 _uiState.update { it.copy(isLoading = false, isCreateSuccess = true) }
