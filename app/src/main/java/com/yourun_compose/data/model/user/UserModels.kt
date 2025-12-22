@@ -5,15 +5,14 @@ data class UserInfo(
     val nickname: String,
     val tendency: String,
     val tags: List<String>,
-    val crewReward: Long,
-    val personalReward: Long,
-    val mvp: Long
+    val crewReward: Long = 0,
+    val personalReward: Long = 0,
+    val mvp: Long = 0
 )
 
 data class UpdateUserRequest(
     val nickname: String,
-    val tag1: String,
-    val tag2: String
+    val tags: List<String>
 )
 
 data class UserMateInfo(
