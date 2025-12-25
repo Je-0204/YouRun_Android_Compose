@@ -11,8 +11,8 @@ class GetMyProfileUseCase @Inject constructor(private val repository: UserReposi
 
 // Update Profile
 class UpdateProfileUseCase @Inject constructor(private val repository: UserRepository) {
-    suspend operator fun invoke(nickname: String, tag1: String, tag2: String) =
-        repository.updateUserInfo(UpdateUserRequest(nickname, tag1, tag2))
+    suspend operator fun invoke(nickname: String, tags: List<String>) =
+        repository.updateUserInfo(UpdateUserRequest(nickname, tags))
 }
 
 // Manage Mate

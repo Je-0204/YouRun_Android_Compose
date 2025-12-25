@@ -24,16 +24,13 @@ class SignUpUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         email: String, password: String, passwordCheck: String,
-        nickname: String, tag1: String, tag2: String
+        nickname: String, tendency: String, tag1: String, tag2: String
     ): Result<Boolean> {
-        val tendency = sessionManager.getTempTendency() ?: "페이스메이커"
 
         val request = SignUpRequest(
             email, password, passwordCheck, nickname, tendency, tag1, tag2
         )
         val result = repository.signUp(request)
-
-        if (result.isSuccess) sessionManager.clearTempTendency()
 
         return result
     }
@@ -54,9 +51,4 @@ class CheckDuplicateUseCase @Inject constructor(private val repository: AuthRepo
 // Logout
 class LogoutUseCase @Inject constructor(private val repository: AuthRepository) {
     operator fun invoke() = repository.logout()
-}
-
-// Save Temp Tendency
-class SaveTempTendencyUseCase @Inject constructor(private val sessionManager: SessionManager) {
-    operator fun invoke(tendency: String) = sessionManager.saveTempTendency(tendency)
 }

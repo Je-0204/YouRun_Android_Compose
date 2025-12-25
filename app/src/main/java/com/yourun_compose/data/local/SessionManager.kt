@@ -1,5 +1,6 @@
 package com.yourun_compose.data.local
 
+import com.yourun_compose.data.model.auth.SignUpRequest
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -7,7 +8,7 @@ import javax.inject.Singleton
 class SessionManager @Inject constructor() {
     private var isMatchingChecked: Boolean = false
 
-    private var tempTendencyResult: String? = null
+    private var tempSignUpData: SignUpRequest? = null
 
     fun isAlreadyChecked(): Boolean = isMatchingChecked
 
@@ -15,13 +16,13 @@ class SessionManager @Inject constructor() {
         isMatchingChecked = true
     }
 
-    fun saveTempTendency(tendency: String) {
-        tempTendencyResult = tendency
+    fun saveTempSignUpData(data: SignUpRequest) {
+        tempSignUpData = data
     }
 
-    fun getTempTendency(): String? = tempTendencyResult
+    fun getTempSignUpData(): SignUpRequest? = tempSignUpData
 
-    fun clearTempTendency() {
-        tempTendencyResult = null
+    fun clearTempSignUpData() {
+        tempSignUpData = null
     }
 }
