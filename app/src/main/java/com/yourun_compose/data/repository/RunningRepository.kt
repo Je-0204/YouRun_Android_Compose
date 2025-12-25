@@ -12,6 +12,12 @@ class RunningRepository @Inject constructor(
     private val apiService: ApiService
 ) : BaseRepository() {
 
+    // Get Mate Running Record
+    suspend fun getMateRunningRecord(mateId: Long): Result<Int> {
+        return safeApiCall { apiService.getRunningDetail(mateId) }
+            .map { response -> response.totalDistance }
+    }
+
     // Send Running Result
     suspend fun sendRunningResult(request: RunningResultRequest): Result<RunningCreationData> {
         return safeApiCall { apiService.sendRunningResult(request) }

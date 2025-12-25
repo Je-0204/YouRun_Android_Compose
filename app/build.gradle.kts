@@ -103,6 +103,9 @@ dependencies {
     // Hilt & Navigation Compose 
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
+    // Location
+    implementation(libs.play.services.location)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
