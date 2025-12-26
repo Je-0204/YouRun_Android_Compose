@@ -106,7 +106,11 @@ dependencies {
     // Location
     implementation(libs.play.services.location)
 
-    testImplementation(libs.junit)
+    // Unit Test
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("io.mockk:mockk:1.14.7")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
