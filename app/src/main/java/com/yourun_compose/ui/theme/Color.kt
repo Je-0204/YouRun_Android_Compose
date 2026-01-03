@@ -34,8 +34,8 @@ val Gray400 = Color(0xFFF7F7F7)
 val TextGray = Color(0xFFCDCDCD)
 val TextGray2 = Color(0xFF5A5A5A)
 val TextGray3 = Color(0xFF7D7D7D)
-val GreyFont = Color(0xFF484848)
-val GreyBorder = Color(0xFFD4D4D4)
+val GrayFont = Color(0xFF484848)
+val GrayBorder = Color(0xFFD4D4D4)
 val Border = Color(0xFFE1E1E1)
 
 //  other UI
