@@ -14,8 +14,9 @@ navigationCompose = "2.9.6"
 lottieCompose = "6.7.1"
 
 # DI
-hilt = "2.51.1"
+hilt = "2.56"
 hiltNavigationCompose = "1.2.0"
+ksp = "2.3.0"
 
 # Location
 playServicesLocation = "21.3.0"
@@ -78,4 +79,4 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
