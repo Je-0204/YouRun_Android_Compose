@@ -1,4 +1,4 @@
-package com.yourun_compose.ui.components
+package com.yourun_compose.ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

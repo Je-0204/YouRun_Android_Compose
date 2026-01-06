@@ -11,6 +11,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.yourun_compose.ui.screen.LoginScreen
+//import com.yourun_compose.ui.screen.SignUpScreen
 import com.yourun_compose.ui.screen.SplashScreen
 
 @Composable
@@ -29,9 +31,13 @@ fun YourunNavGraph(
 
         // Login
         composable(Screen.Login.route) {
-            // TODO: LoginScreen(navController) 로 교체 예정
-            PlaceholderScreen("로그인 화면", navController)
+            LoginScreen(navController = navController)
         }
+
+        // Sign Up
+//        composable(Screen.SignUp.route) {
+//            SignUpScreen(navController = navController)
+//        }
 
         // Main Tab
         composable(Screen.Home.route) { PlaceholderScreen("홈 화면", navController) }

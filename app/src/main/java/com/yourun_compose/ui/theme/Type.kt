@@ -12,21 +12,21 @@ import com.yourun_compose.R
 val RobotoFamily = FontFamily(
     Font(R.font.roboto_regular, FontWeight.Normal),
     Font(R.font.roboto_bold, FontWeight.Bold),
-    Font(R.font.roboto_italic, FontWeight.SemiBold, FontStyle.Italic)
+    Font(R.font.roboto_italic, FontWeight.Bold, FontStyle.Italic)
 )
 
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = RobotoFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
+        fontSize = 24.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = RobotoFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
+        fontSize = 18.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),

@@ -22,16 +22,28 @@ class LoginViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     fun updateEmail(input: String) {
-        _uiState.update { it.copy(email = input, errorMessage = null) }
+        _uiState.update { it.copy(email = input, emailError = false, errorMessage = null) }
     }
 
     fun updatePassword(input: String) {
-        _uiState.update { it.copy(password = input, errorMessage = null) }
+        _uiState.update { it.copy(password = input, passwordError = false, errorMessage = null) }
     }
 
     fun login() {
-        if (_uiState.value.email.isBlank() || _uiState.value.password.isBlank()) {
-            _uiState.update { it.copy(errorMessage = "Enter Email and Password.") }
+        val currentEmail = _uiState.value.email
+        val currentPassword = _uiState.value.password
+
+        val isEmailEmpty = currentEmail.isBlank()
+        val isPasswordEmpty = currentPassword.isBlank()
+
+        if (isEmailEmpty || isPasswordEmpty) {
+            _uiState.update {
+                it.copy(
+                    emailError = isEmailEmpty,
+                    passwordError = isPasswordEmpty,
+                    errorMessage = "이메일과 비밀번호를 입력해주세요."
+                )
+            }
             return
         }
 
@@ -40,7 +52,12 @@ class LoginViewModel @Inject constructor(
             val result = loginUseCase(_uiState.value.email, _uiState.value.password)
 
             result.onSuccess {
-                _uiState.update { it.copy(isLoading = false, isLoginSuccess = true) }
+                _uiState.update { it.copy(
+                    isLoading = false,
+                    isLoginSuccess = true,
+                    emailError = false,
+                    passwordError = false
+                ) }
             }.onFailure { e ->
                 _uiState.update { it.copy(isLoading = false, errorMessage = e.message) }
             }

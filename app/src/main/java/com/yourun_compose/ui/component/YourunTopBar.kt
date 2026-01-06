@@ -1,12 +1,16 @@
-package com.yourun_compose.ui.components
+package com.yourun_compose.ui.component
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack // 뒤로 가기 아이콘
 import androidx.compose.material.icons.filled.DateRange // 캘린더 아이콘
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,9 +25,15 @@ fun YourunTopBar(
         title = {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
         },
+        modifier = Modifier.clip(
+            RoundedCornerShape(
+                bottomStart = 16.dp,
+                bottomEnd = 16.dp
+            )
+        ),
         // 왼쪽 아이콘 (뒤로가기)
         navigationIcon = {
             if (onBackClick != null) {

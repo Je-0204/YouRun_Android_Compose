@@ -1,4 +1,4 @@
-package com.yourun_compose.ui.components
+package com.yourun_compose.ui.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
