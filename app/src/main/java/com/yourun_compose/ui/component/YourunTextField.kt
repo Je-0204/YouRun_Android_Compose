@@ -21,7 +21,8 @@ fun YourunTextField(
     errorMessage: String? = null, // 에러가 있으면 텍스트 표시
     visualTransformation: VisualTransformation = VisualTransformation.None, // 비밀번호 * 처리용
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    singleLine: Boolean = true
+    singleLine: Boolean = true,
+    trailingIcon: @Composable (() -> Unit)? = null
 ) {
     Column(modifier = modifier) {
         OutlinedTextField(
@@ -34,6 +35,7 @@ fun YourunTextField(
             keyboardOptions = keyboardOptions,
             singleLine = singleLine,
             shape = RoundedCornerShape(12.dp),
+            trailingIcon = trailingIcon,
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = MaterialTheme.colorScheme.onPrimary,
                 unfocusedBorderColor = MaterialTheme.colorScheme.outline,
