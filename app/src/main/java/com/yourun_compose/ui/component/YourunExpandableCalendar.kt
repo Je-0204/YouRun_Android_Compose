@@ -1,4 +1,4 @@
-package com.yourun_compose.ui.components
+package com.yourun_compose.ui.component
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background

@@ -24,6 +24,7 @@ val DateYellow = Color(0xFFFFDD85)
 val DateOrange = Color(0xFFFFC368)
 val BtnSelected = Color(0xFFFFF1CD)
 val SelectedLightOrange = Color(0xFFFFE9B1)
+val SelectedBtnBorder = Color(0xFFF4AA3A)
 
 // Gray, Black, White
 val Black = Color(0xFF000000)

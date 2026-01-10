@@ -36,6 +36,20 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    fun checkEmail() {
+        if (!_uiState.value.isEmailValid) return
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            checkDuplicateUseCase.checkEmail(_uiState.value.email)
+                .onSuccess { isDup ->
+                    _uiState.update { it.copy(isLoading = false, isEmailChecked = !isDup, errorMessage = if(isDup) "이미 사용 중입니다." else "사용 가능합니다.") }
+                }
+                .onFailure {
+                    _uiState.update { it.copy(isLoading = false, errorMessage = "중복 확인 실패") }
+                }
+        }
+    }
+
     fun updatePassword(input: String) {
         val isValid = validateUseCase.validatePassword(input)
         _uiState.update {
@@ -57,6 +71,10 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    fun toggleTermsAgreement() {
+        _uiState.update { it.copy(isTermsAgreed = !it.isTermsAgreed) }
+    }
+
     fun updateNickname(input: String) {
         val isValid = validateUseCase.validateNickname(input)
         _uiState.update {
@@ -69,41 +87,46 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun updateTag1(input: String) { _uiState.update { it.copy(tag1 = input) } }
-    fun updateTag2(input: String) { _uiState.update { it.copy(tag2 = input) } }
-
-    // Check Email Duplicated
-    fun checkEmail() {
-        if (!_uiState.value.isEmailValid) return
-        viewModelScope.launch {
-            val result = checkDuplicateUseCase.checkEmail(_uiState.value.email)
-            result.onSuccess { isDup ->
-                _uiState.update { it.copy(isEmailChecked = !isDup, errorMessage = if(isDup) "이미 사용 중인 이메일입니다." else "사용 가능한 이메일입니다.") }
-            }.onFailure {
-                _uiState.update { it.copy(errorMessage = "중복 확인 오류") }
-            }
-        }
-    }
-
-    // Check Nickname Duplicated
     fun checkNickname() {
         if (!_uiState.value.isNicknameValid) return
         viewModelScope.launch {
-            val result = checkDuplicateUseCase.checkNickname(_uiState.value.nickname)
-            result.onSuccess { isDup ->
-                _uiState.update { it.copy(isNicknameChecked = !isDup, errorMessage = if(isDup) "이미 사용 중인 닉네임입니다." else "사용 가능한 닉네임입니다.") }
-            }.onFailure {
-                _uiState.update { it.copy(errorMessage = "중복 확인 오류") }
-            }
+            _uiState.update { it.copy(isLoading = true) }
+            checkDuplicateUseCase.checkNickname(_uiState.value.nickname)
+                .onSuccess { isDup ->
+                    _uiState.update { it.copy(isLoading = false, isNicknameChecked = !isDup, errorMessage = if(isDup) "이미 사용 중입니다." else "사용 가능합니다.") }
+                }
+                .onFailure {
+                    _uiState.update { it.copy(isLoading = false, errorMessage = "중복 확인 실패") }
+                }
+        }
+    }
+
+    fun toggleTag(tag: String) {
+        _uiState.update { state ->
+            val currentTags = state.selectedTags.toMutableList()
+            if (currentTags.contains(tag)) currentTags.remove(tag)
+            else if (currentTags.size < 2) currentTags.add(tag)
+            state.copy(selectedTags = currentTags)
         }
     }
 
     fun onNextClick() {
         val state = _uiState.value
-        if (!state.isInputComplete) {
-            _uiState.update { it.copy(errorMessage = "모든 정보를 입력하고 중복 확인을 완료해주세요.") }
+
+        if (!state.canMoveToNext) {
+            _uiState.update { it.copy(errorMessage = "입력 정보를 확인해주세요.") }
             return
         }
+
+        if (state.step < 3) {
+            _uiState.update { it.copy(step = it.step + 1) }
+        } else {
+            saveTempDataAndNavigate()
+        }
+    }
+
+    private fun saveTempDataAndNavigate() {
+        val state = _uiState.value
 
         val tempData = SignUpRequest(
             email = state.email,
@@ -111,12 +134,22 @@ class SignUpViewModel @Inject constructor(
             passwordcheck = state.passwordcheck,
             nickname = state.nickname,
             tendency = "",
-            tag1 = state.tag1,
-            tag2 = state.tag2
+            tag1 = state.selectedTags.getOrElse(0) { "" },
+            tag2 = state.selectedTags.getOrElse(1) { "" },
         )
 
         sessionManager.saveTempSignUpData(tempData)
 
-        _uiState.update { it.copy(isSignUpSuccess = true) }
+        _uiState.update { it.copy(navigateToTendency = true) }
+    }
+
+    fun onPrevClick() {
+        if (_uiState.value.step > 1) {
+            _uiState.update { it.copy(step = it.step - 1) }
+        }
+    }
+
+    fun onNavigateToTendencyHandled() {
+        _uiState.update { it.copy(navigateToTendency = false) }
     }
 }

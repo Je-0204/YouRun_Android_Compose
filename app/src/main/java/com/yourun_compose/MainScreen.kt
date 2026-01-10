@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.unit.dp
-import com.yourun_compose.ui.components.YourunBottomBar
+import com.yourun_compose.ui.component.YourunBottomBar
 import com.yourun_compose.ui.navigation.Screen
 import com.yourun_compose.ui.navigation.YourunNavGraph
 

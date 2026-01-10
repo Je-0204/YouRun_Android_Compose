@@ -61,6 +61,8 @@ class TendencyTestViewModel @Inject constructor(
     }
 
     fun selectAnswer(isTop: Boolean) {
+        if (_uiState.value.isLoading) return
+
         currentTotalScore += if (isTop) 1 else 2
         val nextIndex = _uiState.value.currentQuestionIndex + 1
 
@@ -81,7 +83,12 @@ class TendencyTestViewModel @Inject constructor(
 
         val savedData = sessionManager.getTempSignUpData()
         if (savedData == null) {
-            _uiState.update { it.copy(errorMessage = "가입 정보가 유실되었습니다. 처음부터 다시 시도해주세요.", isFatalError = true) }
+            _uiState.update {
+                it.copy(
+                    errorMessage = "가입 정보가 유실되었습니다. 처음부터 다시 시도해주세요.",
+                    isFatalError = true
+                )
+            }
             return
         }
 
@@ -92,32 +99,32 @@ class TendencyTestViewModel @Inject constructor(
                 savedData.email, savedData.password, savedData.passwordcheck,
                 savedData.nickname, tendencyResult, savedData.tag1, savedData.tag2
             )
+
             result.onSuccess {
-                sessionManager.clearTempSignUpData()
-
-                _uiState.update {
-                    it.copy(isLoading = false, isFinished = true)
+                    sessionManager.clearTempSignUpData()
+                    _uiState.update { it.copy(isLoading = false, isFinished = true) }
                 }
-            }.onFailure { e ->
-                val errorMsg = e.message ?: "알 수 없는 오류가 발생했습니다."
+                .onFailure { e ->
+                    val errorMsg = e.message ?: "알 수 없는 오류가 발생했습니다."
 
-                if (errorMsg.contains("이미 존재하는") || errorMsg.contains("중복")) {
-                    _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            errorMessage = "이미 가입된 정보입니다. 정보를 수정해주세요.",
-                            isFatalError = true
-                        )
-                    }
-                } else {
-                    _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            errorMessage = "회원가입 실패: $errorMsg (다시 시도해주세요)"
-                        )
+                    if (errorMsg.contains("이미 존재") || errorMsg.contains("중복")) {
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                errorMessage = "이미 가입된 정보입니다. 정보를 수정해주세요.",
+                                isFatalError = true
+                            )
+                        }
+                    } else {
+                        // 일시적 오류
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                errorMessage = "회원가입 실패: $errorMsg"
+                            )
+                        }
                     }
                 }
-            }
         }
     }
 
