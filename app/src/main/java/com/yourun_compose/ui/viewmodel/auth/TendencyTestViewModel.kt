@@ -6,6 +6,7 @@ import com.yourun_compose.data.local.SessionManager
 import com.yourun_compose.domain.usecase.auth.SignUpUseCase
 import com.yourun_compose.ui.state.auth.TendencyTestUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -54,22 +55,30 @@ class TendencyTestViewModel @Inject constructor(
                     currentQuestionIndex = index,
                     questionText = q.question,
                     answerTopText = q.answerTop,
-                    answerBottomText = q.answerBottom
+                    answerBottomText = q.answerBottom,
+                    selectedOption = null, // 선택 초기화
+                    progress = (index + 1) / 4f
                 )
             }
         }
     }
 
     fun selectAnswer(isTop: Boolean) {
-        if (_uiState.value.isLoading) return
+        if (_uiState.value.isLoading || _uiState.value.selectedOption != null) return
 
-        currentTotalScore += if (isTop) 1 else 2
-        val nextIndex = _uiState.value.currentQuestionIndex + 1
+        viewModelScope.launch {
+            _uiState.update { it.copy(selectedOption = isTop) }
 
-        if (nextIndex < questions.size) {
-            loadQuestion(nextIndex)
-        } else {
-            finishTestAndSignUp()
+            delay(300)
+
+            currentTotalScore += if (isTop) 1 else 2
+            val nextIndex = _uiState.value.currentQuestionIndex + 1
+
+            if (nextIndex < questions.size) {
+                loadQuestion(nextIndex)
+            } else {
+                finishTestAndSignUp()
+            }
         }
     }
 
@@ -102,7 +111,12 @@ class TendencyTestViewModel @Inject constructor(
 
             result.onSuccess {
                     sessionManager.clearTempSignUpData()
-                    _uiState.update { it.copy(isLoading = false, isFinished = true) }
+                    _uiState.update { it.copy(
+                        isLoading = false,
+                        isFinished = true,
+                        tendencyResult = tendencyResult,
+                        userNickname =  savedData.nickname
+                    ) }
                 }
                 .onFailure { e ->
                     val errorMsg = e.message ?: "알 수 없는 오류가 발생했습니다."
