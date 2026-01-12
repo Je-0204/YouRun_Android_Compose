@@ -13,6 +13,7 @@ import androidx.core.view.WindowCompat
 private val LightColorScheme = lightColorScheme(
     primary = MainColor,
     onPrimary = Black,
+    primaryContainer = SelectedLightOrange,
     secondary = DatePurple,
     onSecondary = White,
     tertiary = Teal200,

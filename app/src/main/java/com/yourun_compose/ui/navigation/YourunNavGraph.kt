@@ -15,6 +15,7 @@ import com.yourun_compose.ui.screen.LoginScreen
 import com.yourun_compose.ui.screen.SignUpScreen
 //import com.yourun_compose.ui.screen.SignUpScreen
 import com.yourun_compose.ui.screen.SplashScreen
+import com.yourun_compose.ui.screen.TendencyTestScreen
 
 @Composable
 fun YourunNavGraph(
@@ -46,17 +47,16 @@ fun YourunNavGraph(
         }
 
         // Tendency Test
-//        composable(Screen.TendencyTest.route) {
-//            TendencyTestScreen(
-//                navController = navController,
-//                onSignUpSuccess = {
-//                    // 가입 완료되면 홈으로 이동 (로그인/회원가입 스택 제거)
-//                    navController.navigate(Screen.Home.route) {
-//                        popUpTo(Screen.Login.route) { inclusive = true }
-//                    }
-//                }
-//            )
-//        }
+        composable(Screen.TendencyTest.route) {
+            TendencyTestScreen(
+                navController = navController,
+                onSignUpSuccess = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                }
+            )
+        }
 
         // Main Tab
         composable(Screen.Home.route) { PlaceholderScreen("홈 화면", navController) }

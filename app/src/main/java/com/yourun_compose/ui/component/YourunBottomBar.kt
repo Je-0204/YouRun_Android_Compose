@@ -32,7 +32,7 @@ enum class MainTab(
 ) {
     HOME("home", Icons.Default.Home, "홈"),
     MATE("mate", Icons.Default.FavoriteBorder, "메이트"),
-    RUNNING("running", R.drawable.img_running, "러닝"),
+    RUNNING("running", R.drawable.img_btn_bottom_running, "러닝"),
     CHALLENGE("challenge", Icons.Default.Star, "챌린지"),
     MY_PAGE("my_page", Icons.Default.Person, "마이런");
 
