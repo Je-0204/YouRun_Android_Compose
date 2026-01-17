@@ -1,6 +1,7 @@
 [versions]
 # Default
 agp = "8.13.2"
+datastorePreferences = "1.2.0"
 kotlin = "2.2.21"
 coreKtx = "1.17.0"
 lifecycleRuntimeKtx = "2.10.0"
@@ -36,7 +37,9 @@ espressoCore = "3.7.0"
 
 [libraries]
 # AndroidX Core
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 
 # Compose (BOM)

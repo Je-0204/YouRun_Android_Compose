@@ -12,8 +12,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.yourun_compose.ui.screen.LoginScreen
+import com.yourun_compose.ui.screen.OnboardingScreen
 import com.yourun_compose.ui.screen.SignUpScreen
-//import com.yourun_compose.ui.screen.SignUpScreen
 import com.yourun_compose.ui.screen.SplashScreen
 import com.yourun_compose.ui.screen.TendencyTestScreen
 
@@ -29,6 +29,11 @@ fun YourunNavGraph(
         // Splash
         composable(Screen.Splash.route) {
             SplashScreen(navController = navController)
+        }
+
+        // Onboarding
+        composable(Screen.Onboarding.route) {
+            OnboardingScreen(navController = navController)
         }
 
         // Login
