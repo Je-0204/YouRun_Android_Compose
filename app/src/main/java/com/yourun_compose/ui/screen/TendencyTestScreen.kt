@@ -308,7 +308,7 @@ fun TendencyResultScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.bgd_tendency_result),
+                    painter = painterResource(id = R.drawable.bgd_gradation_yellow),
                     contentDescription = "배경",
                     modifier = Modifier.fillMaxSize()
                 )
