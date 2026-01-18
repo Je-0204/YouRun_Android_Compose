@@ -48,7 +48,10 @@ class MyPageViewModel @Inject constructor(
                 }
             } else {
                 _uiState.update {
-                    it.copy(isLoading = false, errorMessage = profileResult.exceptionOrNull()?.message)
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = profileResult.exceptionOrNull()?.message
+                    )
                 }
             }
         }
