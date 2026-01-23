@@ -11,7 +11,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.yourun_compose.ui.screen.EditProfileScreen
 import com.yourun_compose.ui.screen.LoginScreen
+import com.yourun_compose.ui.screen.MyPageScreen
 import com.yourun_compose.ui.screen.OnboardingScreen
 import com.yourun_compose.ui.screen.SignUpScreen
 import com.yourun_compose.ui.screen.SplashScreen
@@ -20,7 +22,7 @@ import com.yourun_compose.ui.screen.TendencyTestScreen
 @Composable
 fun YourunNavGraph(
     navController: NavHostController,
-    startDestination: String = Screen.Splash.route
+    startDestination: String = Screen.MyPage.route
 ) {
     NavHost(
         navController = navController,
@@ -67,7 +69,14 @@ fun YourunNavGraph(
         composable(Screen.Home.route) { PlaceholderScreen("홈 화면", navController) }
         composable(Screen.Mate.route) { PlaceholderScreen("메이트 화면", navController) }
         composable(Screen.Challenge.route) { PlaceholderScreen("챌린지 화면", navController) }
-        composable(Screen.MyPage.route) { PlaceholderScreen("마이페이지", navController) }
+        composable(Screen.MyPage.route) {
+            MyPageScreen(navController = navController)
+        }
+
+        // MyPage
+        composable(Screen.EditProfile.route) {
+            EditProfileScreen(navController = navController)
+        }
 
         // Running
         composable(Screen.Running.route) {

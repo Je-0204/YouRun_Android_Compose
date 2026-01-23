@@ -34,23 +34,24 @@ class EditProfileViewModel @Inject constructor(
     private fun loadCurrentProfile() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            val result = getMyProfileUseCase()
-            result.onSuccess { data ->
-                originalNickname = data.nickname
-                val firstTag = data.tags.getOrNull(0) ?: ""
-                val secondTag = data.tags.getOrNull(1) ?: ""
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        nickname = data.nickname,
-                        tag1 = firstTag,
-                        tag2 = secondTag,
-                        userTendency = data.tendency
-                    )
+
+            getMyProfileUseCase()
+                .onSuccess { data ->
+                    originalNickname = data.nickname
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            nickname = data.nickname,
+                            tag1 = data.tags.getOrNull(0) ?: "",
+                            tag2 = data.tags.getOrNull(1) ?: "",
+                            userTendency = data.tendency,
+                            isNicknameChecked = true
+                        )
+                    }
                 }
-            }.onFailure {
-                _uiState.update { it.copy(isLoading = false, errorMessage = "정보 로딩 실패") }
-            }
+                .onFailure {
+                    _uiState.update { it.copy(isLoading = false, errorMessage = "정보를 불러오지 못했습니다.") }
+                }
         }
     }
 
@@ -61,47 +62,73 @@ class EditProfileViewModel @Inject constructor(
                 nickname = input,
                 isNicknameValid = isValid,
                 // 닉네임이 원본과 다르면 중복체크 필요(false), 같으면 필요없음(true)
-                isNicknameChecked = input == originalNickname,
-                errorMessage = if (!isValid) "한글 2~4자(공백 없음)만 가능" else null
+                isNicknameChecked = (input == originalNickname),
+                errorMessage = if (!isValid && input.isNotEmpty()) "한글 2~4자(공백 없음)만 가능" else null
             )
         }
     }
 
-    fun updateTag1(input: String) { _uiState.update { it.copy(tag1 = input) } }
-    fun updateTag2(input: String) { _uiState.update { it.copy(tag2 = input) } }
-
-    fun checkNickname() {
-        if (!_uiState.value.isNicknameValid) return
-        viewModelScope.launch {
-            val result = checkDuplicateUseCase.checkNickname(_uiState.value.nickname)
-            result.onSuccess { isDup ->
-                _uiState.update {
-                    it.copy(
-                        isNicknameChecked = !isDup,
-                        errorMessage = if (isDup) "중복된 닉네임입니다." else "사용 가능합니다."
-                    )
+    fun toggleTag(tag: String) {
+        _uiState.update { state ->
+            if (state.tag1 == tag) {
+                state.copy(tag1 = "")
+            } else if (state.tag2 == tag) {
+                state.copy(tag2 = "")
+            } else {
+                if (state.tag1.isEmpty()) {
+                    state.copy(tag1 = tag)
+                } else if (state.tag2.isEmpty()) {
+                    state.copy(tag2 = tag)
+                } else {
+                    state
                 }
             }
         }
     }
 
-    fun submitUpdate() {
-        if (!_uiState.value.canSubmit(originalNickname)) return
+    fun checkNickname() {
+        if (!_uiState.value.isNicknameValid) return
+
+        if (_uiState.value.nickname == originalNickname) {
+            _uiState.update { it.copy(isNicknameChecked = true) }
+            return
+        }
 
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
 
-            val tagsList = listOf(_uiState.value.tag1, _uiState.value.tag2)
+            checkDuplicateUseCase.checkNickname(_uiState.value.nickname)
+                .onSuccess { isDup ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            isNicknameChecked = !isDup,
+                            errorMessage = if (isDup) "이미 사용 중인 닉네임입니다." else null
+                        )
+                    }
+                }
+                .onFailure {
+                    _uiState.update { it.copy(isLoading = false, errorMessage = "중복 확인 실패") }
+                }
+        }
+    }
 
-            val result = updateProfileUseCase(
-                _uiState.value.nickname,
-                tagsList
-            )
-            result.onSuccess {
-                _uiState.update { it.copy(isLoading = false, isUpdateSuccess = true) }
-            }.onFailure { e ->
-                _uiState.update { it.copy(isLoading = false, errorMessage = e.message) }
-            }
+    fun submitUpdate() {
+        val state = _uiState.value
+        if (!state.canSubmit) return
+
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+
+            val tagsList = listOf(state.tag1, state.tag2).filter { it.isNotEmpty() }
+
+            updateProfileUseCase(state.nickname, tagsList)
+                .onSuccess {
+                    _uiState.update { it.copy(isLoading = false, isUpdateSuccess = true) }
+                }
+                .onFailure { e ->
+                    _uiState.update { it.copy(isLoading = false, errorMessage = e.message ?: "수정 실패") }
+                }
         }
     }
 }
