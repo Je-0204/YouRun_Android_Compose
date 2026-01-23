@@ -11,6 +11,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.yourun_compose.ui.screen.EditProfileScreen
 import com.yourun_compose.ui.screen.LoginScreen
 import com.yourun_compose.ui.screen.MyPageScreen
 import com.yourun_compose.ui.screen.OnboardingScreen
@@ -70,6 +71,11 @@ fun YourunNavGraph(
         composable(Screen.Challenge.route) { PlaceholderScreen("챌린지 화면", navController) }
         composable(Screen.MyPage.route) {
             MyPageScreen(navController = navController)
+        }
+
+        // MyPage
+        composable(Screen.EditProfile.route) {
+            EditProfileScreen(navController = navController)
         }
 
         // Running

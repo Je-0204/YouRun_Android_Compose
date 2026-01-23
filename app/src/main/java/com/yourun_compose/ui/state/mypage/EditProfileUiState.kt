@@ -13,12 +13,6 @@ data class EditProfileUiState(
     val errorMessage: String? = null,
     val isUpdateSuccess: Boolean = false
 ) {
-    fun canSubmit(originalNickname: String): Boolean {
-        val isNicknameChanged = nickname != originalNickname
-        return if (isNicknameChanged) {
-            isNicknameValid && isNicknameChecked && tag1.isNotBlank() && tag2.isNotBlank()
-        } else {
-            isNicknameValid && tag1.isNotBlank() && tag2.isNotBlank()
-        }
-    }
+    val canSubmit: Boolean
+        get() = isNicknameValid && isNicknameChecked && tag1.isNotEmpty() && tag2.isNotEmpty()
 }

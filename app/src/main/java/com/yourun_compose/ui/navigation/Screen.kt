@@ -17,6 +17,9 @@ sealed class Screen(val route: String) {
     data object Challenge : Screen("challenge")
     data object MyPage : Screen("my_page")
 
+    // MyPage
+    data object EditProfile : Screen("edit_profile")
+
     // Running
     data object Running : Screen("running")
 

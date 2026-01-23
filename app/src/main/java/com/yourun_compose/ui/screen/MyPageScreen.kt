@@ -112,8 +112,7 @@ fun MyPageScreen(
                     modifier = Modifier
                         .clip(RoundedCornerShape(12.dp))
                         .clickable {
-                            // TODO: 정보 수정 화면으로 이동
-                            // navController.navigate(Screen.EditProfile.route)
+                            navController.navigate(Screen.EditProfile.route)
                         }
                         .background(RoundButton)
                         .border(1.dp, Color.LightGray.copy(alpha = 0.5f), RoundedCornerShape(12.dp))

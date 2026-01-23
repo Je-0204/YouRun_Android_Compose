@@ -26,10 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.yourun_compose.ui.component.*
 import com.yourun_compose.ui.state.auth.SignUpUiState
-import com.yourun_compose.ui.theme.BtnSelected
-import com.yourun_compose.ui.theme.GrayBorder
 import com.yourun_compose.ui.theme.RoundButton
-import com.yourun_compose.ui.theme.SelectedBtnBorder
 import com.yourun_compose.ui.theme.TextGray3
 import com.yourun_compose.ui.viewmodel.auth.SignUpViewModel
 
@@ -290,7 +287,7 @@ private fun SignUpStep3_Profile(state: SignUpUiState, viewModel: SignUpViewModel
         YourunTextField(
             value = state.nickname,
             onValueChange = { viewModel.updateNickname(it) },
-            label = "닉네임",
+            label = "",
             errorMessage = if (state.isNicknameValid && !state.isNicknameChecked) "중복 확인이 필요합니다" else null,
             trailingIcon = {
                 TextButton(
@@ -347,7 +344,7 @@ private fun SignUpStep3_Profile(state: SignUpUiState, viewModel: SignUpViewModel
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 availableTags.take(3).forEach { tag ->
-                    TagBoxItem(
+                    YourunTagBoxItem(
                         text = tag,
                         isSelected = state.selectedTags.contains(tag),
                         onClick = { viewModel.toggleTag(tag) },
@@ -362,7 +359,7 @@ private fun SignUpStep3_Profile(state: SignUpUiState, viewModel: SignUpViewModel
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 availableTags.takeLast(3).forEach { tag ->
-                    TagBoxItem(
+                    YourunTagBoxItem(
                         text = tag,
                         isSelected = state.selectedTags.contains(tag),
                         onClick = { viewModel.toggleTag(tag) },
@@ -399,33 +396,5 @@ private fun SignUpStep3_Profile(state: SignUpUiState, viewModel: SignUpViewModel
                 style = MaterialTheme.typography.labelLarge.copy(color = TextGray3)
             )
         }
-    }
-}
-
-@Composable
-private fun TagBoxItem(
-    text: String,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val backgroundColor = if (isSelected) BtnSelected else Color.White
-    val contentColor = if (isSelected) Color.Black else TextGray3
-    val borderColor = if (isSelected) SelectedBtnBorder else GrayBorder
-
-    Box(
-        modifier = modifier
-            .height(50.dp)
-            .background(color = backgroundColor, shape = RoundedCornerShape(8.dp))
-            .border(width = 1.dp, color = borderColor, shape = RoundedCornerShape(8.dp))
-            .clickable { onClick() },
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text,
-            color = contentColor,
-            style = MaterialTheme.typography.titleSmall,
-            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-        )
     }
 }
