@@ -11,6 +11,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.yourun_compose.ui.screen.CalendarScreen
 import com.yourun_compose.ui.screen.EditProfileScreen
 import com.yourun_compose.ui.screen.LoginScreen
 import com.yourun_compose.ui.screen.MyPageScreen
@@ -22,7 +23,7 @@ import com.yourun_compose.ui.screen.TendencyTestScreen
 @Composable
 fun YourunNavGraph(
     navController: NavHostController,
-    startDestination: String = Screen.MyPage.route
+    startDestination: String = Screen.Calendar.route
 ) {
     NavHost(
         navController = navController,
@@ -76,6 +77,11 @@ fun YourunNavGraph(
         // MyPage
         composable(Screen.EditProfile.route) {
             EditProfileScreen(navController = navController)
+        }
+
+        // Calendar
+        composable(Screen.Calendar.route) {
+            CalendarScreen(navController = navController)
         }
 
         // Running
