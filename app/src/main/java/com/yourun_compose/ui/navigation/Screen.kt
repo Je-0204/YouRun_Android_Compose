@@ -20,6 +20,9 @@ sealed class Screen(val route: String) {
     // MyPage
     data object EditProfile : Screen("edit_profile")
 
+    // Calendar
+    data object Calendar : Screen("calendar")
+
     // Running
     data object Running : Screen("running")
 
